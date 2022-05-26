@@ -2,15 +2,34 @@ import * as P from 'ts-prime'
 import * as Jet from 'fs-jetpack'
 import { tmpNameSync } from 'tmp'
 import { PDFDocument } from 'pdf-lib'
+import { flipDimensions } from './utils'
+import { VNode } from 'preact'
+import renderToString from 'preact-render-to-string'
 const html_to_pdf = require('html-pdf-node')
 
 export namespace PDF {
-	export type Format = 'A1' | 'A2' | 'A3' | 'A4' | 'A5' | 'A6'
+	export type Format = 'A3' | 'A4' | 'A5' | 'A6' | [x: number, y: number]
 
 	export interface Content {
 		content: string
 		format: Format
 		landscape?: boolean
+	}
+
+	export function page(data: Content | { content: string | VNode<{}> }) {
+		if (P.isObject(data.content)) {
+			return {
+				...data,
+				content: renderToString(
+					data.content,
+					{},
+					{
+						pretty: true,
+					}
+				),
+			}
+		}
+		return data
 	}
 
 	async function mergePDF(pdfList: Buffer[]) {
@@ -25,11 +44,18 @@ export namespace PDF {
 			})
 		}
 
-		const buf = await mergedPdf.save()
-		return buf
+		const buffer = await mergedPdf.save()
+		return buffer
 	}
 
 	async function singlePdf(content: Content) {
+		const format = P.isArray(content.format)
+			? {
+					...flipDimensions(content.format, true),
+			  }
+			: {
+					format: content.format,
+			  }
 		const result = await P.canFail(
 			() =>
 				html_to_pdf.generatePdf(
@@ -37,7 +63,7 @@ export namespace PDF {
 						content: content.content,
 					},
 					{
-						format: content.format,
+						...format,
 						landscape: content.landscape,
 					}
 				) as Promise<Buffer>

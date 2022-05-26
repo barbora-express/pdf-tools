@@ -58,11 +58,15 @@
     "typescript": "4.5.x"
   },
   "dependencies": {
+    "@types/live-server": "^1.2.1",
     "@types/tmp": "^0.2.3",
+    "chokidar": "^3.5.3",
     "fs-jetpack": "^4.3.1",
     "html-pdf-node": "^1.0.8",
+    "live-server": "^1.2.2",
     "pdf-lib": "^1.17.1",
     "preact": "^10.7.2",
+    "preact-render-to-string": "^5.2.0",
     "tmp": "^0.2.1",
     "ts-prime": "^1.0.0",
     "typedi": "^0.10.0"

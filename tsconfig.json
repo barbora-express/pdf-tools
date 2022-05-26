@@ -13,6 +13,8 @@
         "strictFunctionTypes": false,
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
+        "jsx": "react-jsx",
+        "jsxImportSource": "preact",
         "rootDirs": [
             "./src"
         ],
