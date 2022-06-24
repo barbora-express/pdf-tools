@@ -1,13 +1,14 @@
 {
   "name": "@barbora-express/pdf-tools",
   "description": "PDF generation library & generation utilities",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "publishConfig": {
     "access": "restricted"
   },
   "files": [
+    "bin",
     "lib",
     "src",
     "tests",
