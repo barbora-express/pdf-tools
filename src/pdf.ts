@@ -50,10 +50,10 @@ async function singlePdf(content: Content) {
  *
  * @returns {string} File to generated pdf file
  */
-export async function generate(args: Content[]) {
+export async function generate(args: Content[], output?: string) {
 	const sample = await Promise.all(args.map((c) => singlePdf(c)))
 	const mergedPDF = await mergePDF(sample)
-	const name = tmpNameSync()
+	const name = output ? Jet.path(process.cwd(), output) : tmpNameSync()
 	await Jet.writeAsync(name, mergedPDF)
 	return name
 }
